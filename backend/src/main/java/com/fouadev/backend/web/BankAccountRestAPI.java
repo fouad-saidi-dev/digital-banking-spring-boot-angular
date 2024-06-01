@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/*
- Created by : Fouad SAIDI on 24/05/2024
- @author : Fouad SAIDI
- @date : 24/05/2024
- @project : e-banking
-*/
 @RestController
 @RequestMapping("/accounts")
+@CrossOrigin("*")
 public class BankAccountRestAPI {
     private BankAccountService bankAccountService;
 
