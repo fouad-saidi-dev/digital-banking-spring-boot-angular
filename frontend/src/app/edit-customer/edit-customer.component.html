@@ -1,0 +1,32 @@
+<div class="container p-2">
+  <div class="card" *ngIf="editCustomerForm">
+    <div class="card-header">
+      Edit Customer
+    </div>
+    <div class="card-body">
+      <form [formGroup]="editCustomerForm" (ngSubmit)="handleEditCustomer()">
+        <div class="mb-3">
+          <label class="form-label">Name :</label>
+          <input class="form-control" formControlName="name">
+          <span class="text-danger"
+                *ngIf="editCustomerForm.controls['name'].touched
+              && editCustomerForm.controls['name'].errors
+              && editCustomerForm.controls['name'].errors!['required']">
+            Name is Required
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email :</label>
+          <input class="form-control" formControlName="email">
+          <span class="text-danger"
+                *ngIf="editCustomerForm.controls['email'].touched
+              && editCustomerForm.controls['email'].errors
+              && editCustomerForm.controls['email'].errors!['email']">
+            Email not valid
+          </span>
+        </div>
+        <button class="btn btn-success" [disabled]="editCustomerForm.invalid">Save Edit</button>
+      </form>
+    </div>
+  </div>
+</div>

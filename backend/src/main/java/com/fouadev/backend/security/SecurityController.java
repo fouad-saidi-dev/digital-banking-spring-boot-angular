@@ -55,6 +55,6 @@ public class SecurityController {
 
         String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
 
-        return Map.of("access-token", jwt);
+        return Map.of("access_token", jwt);
     }
 }

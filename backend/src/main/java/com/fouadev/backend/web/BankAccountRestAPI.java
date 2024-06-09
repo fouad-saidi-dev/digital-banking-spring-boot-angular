@@ -1,10 +1,8 @@
 package com.fouadev.backend.web;
 
-import com.fouadev.backend.dtos.AccountHistoryDTO;
-import com.fouadev.backend.dtos.AccountOperationDTO;
-import com.fouadev.backend.dtos.BankAccountDTO;
-import com.fouadev.backend.dtos.SavingBankAccountDTO;
+import com.fouadev.backend.dtos.*;
 import com.fouadev.backend.entities.BankAccount;
+import com.fouadev.backend.exceptions.BalanceNotSufficientException;
 import com.fouadev.backend.exceptions.BankAccountNotFoundException;
 import com.fouadev.backend.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +39,25 @@ public class BankAccountRestAPI {
                                                      @RequestParam(name = "size",defaultValue = "5") int size) throws BankAccountNotFoundException {
        return bankAccountService.getAccountHistory(accountId,page,size);
     }
+    @PostMapping("/debit")
+    public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(), debitDTO.getDescription());
+        return debitDTO;
+    }
+    @PostMapping("/credit")
+    public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException {
+        bankAccountService.credit(creditDTO.getAccountId(), creditDTO.getAmount(), creditDTO.getDescription());
+        return creditDTO;
+    }
+    @PostMapping("/transfer")
+    public TransferDTO transfer(@RequestBody TransferDTO transferDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        bankAccountService.transfer(transferDTO.getAccountIdSource(),transferDTO.getAccountIdDestination(),transferDTO.getAmount());
+        return transferDTO;
+    }
+    @GetMapping("/customer/{customerId}")
+    public List<BankAccountDTO> bankAccountListCustomer(@PathVariable Long customerId) {
+        return bankAccountService.getAccountsCustomer(customerId);
+    }
+
 
 }
