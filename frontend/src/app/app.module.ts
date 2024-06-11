@@ -17,6 +17,7 @@ import {CustomerAccountsComponent} from './customer-accounts/customer-accounts.c
 import {EditCustomerComponent} from './edit-customer/edit-customer.component';
 import {NotAuthorizedComponent} from './not-authorized/not-authorized.component';
 import {AuthorizationGuard} from "./guards/authorization.guard";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {AuthorizationGuard} from "./guards/authorization.guard";
     AdminTemplateComponent,
     CustomerAccountsComponent,
     EditCustomerComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

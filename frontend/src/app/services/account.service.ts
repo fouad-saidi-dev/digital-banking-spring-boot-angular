@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AccountDetails} from "../models/account.model";
+import {Account, AccountDetails} from "../models/account.model";
 import {environment} from "../../environments/environment.development";
+import {Customer} from "../models/customer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,8 @@ export class AccountService {
       description:description
     }
     return this.http.post(`${environment.backendHost}/accounts/debit`,data)
+  }
+  public getAccountsCustomer(id:number):Observable<Array<Account>>{
+    return this.http.get<Array<Account>>(`${environment.backendHost}/accounts/customer/${id}`);
   }
 }

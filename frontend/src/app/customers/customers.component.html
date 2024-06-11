@@ -24,7 +24,8 @@
             <th>ID</th>
             <th>NAME</th>
             <th>EMAIL</th>
-            <th>ACTIONS</th>
+            <th *ngIf="authService.roles.includes('ADMIN')">ACTIONS</th>
+            <th>ACCOUNT</th>
           </tr>
           </thead>
           <tbody>
@@ -32,7 +33,7 @@
             <td>{{customer.id}}</td>
             <td>{{customer.name}}</td>
             <td>{{customer.email}}</td>
-            <td>
+            <td *ngIf="authService.roles.includes('ADMIN')" >
               <button (click)="handleEditCustomer(customer)" class="btn btn-success ms-2">
                 <i class="bi bi-pen"></i>
               </button>

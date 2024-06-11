@@ -4,6 +4,7 @@ import {CustomerService} from "../services/customer.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-customers',
@@ -17,7 +18,8 @@ export class CustomersComponent implements OnInit {
 
   constructor(private customerService: CustomerService,
               private formBuilder: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              public authService:AuthService) {
   }
 
   ngOnInit(): void {

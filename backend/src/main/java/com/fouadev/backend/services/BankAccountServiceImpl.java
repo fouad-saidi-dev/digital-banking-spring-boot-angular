@@ -239,10 +239,12 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<BankAccountDTO> getAccountsCustomer(Long customerId) {
+
         List<BankAccount> bankAccounts = bankAccountRepository.findByCustomerId(customerId);
 
         List<BankAccountDTO> bankAccountDTOS = bankAccounts.stream().map(bankAccount -> {
-            if (bankAccount instanceof CurrentAccount currentAccount) {
+            if (bankAccount instanceof CurrentAccount) {
+                CurrentAccount currentAccount = (CurrentAccount) bankAccount;
                 return mapper.fromCurrentAccount(currentAccount);
             } else {
                 SavingAccount savingAccount = (SavingAccount) bankAccount;
@@ -252,4 +254,5 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         return bankAccountDTOS;
     }
+
 }
