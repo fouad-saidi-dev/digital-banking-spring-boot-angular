@@ -6,14 +6,8 @@ package com.fouadev.backend.mappers;
  @project : e-banking
 */
 
-import com.fouadev.backend.dtos.AccountOperationDTO;
-import com.fouadev.backend.dtos.CurrentBankAccountDTO;
-import com.fouadev.backend.dtos.CustomerDTO;
-import com.fouadev.backend.dtos.SavingBankAccountDTO;
-import com.fouadev.backend.entities.AccountOperation;
-import com.fouadev.backend.entities.CurrentAccount;
-import com.fouadev.backend.entities.Customer;
-import com.fouadev.backend.entities.SavingAccount;
+import com.fouadev.backend.dtos.*;
+import com.fouadev.backend.entities.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +55,15 @@ public class BankAccountMapperImpl {
         AccountOperationDTO accountOperationDTO = new AccountOperationDTO();
         BeanUtils.copyProperties(accountOperation,accountOperationDTO);
         return accountOperationDTO;
+    }
+    public AppUser fromAppUserDTO(AppUserDTO appUserDTO){
+        AppUser user = new AppUser();
+        BeanUtils.copyProperties(appUserDTO,user);
+        return user;
+    }
+    public AppUserDTO fromAppUser(AppUser appUser){
+        AppUserDTO userDTO = new AppUserDTO();
+        BeanUtils.copyProperties(appUser,userDTO);
+        return userDTO;
     }
 }

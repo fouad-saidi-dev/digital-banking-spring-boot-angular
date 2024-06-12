@@ -13,12 +13,15 @@ import com.fouadev.backend.exceptions.CustomerNotFoundException;
 import com.fouadev.backend.repositories.AccountOperationRepository;
 import com.fouadev.backend.repositories.BankAccountRepository;
 import com.fouadev.backend.repositories.CustomerRepository;
+import com.fouadev.backend.security.repo.AppRoleRepository;
+import com.fouadev.backend.security.repo.AppUserRepository;
 import com.fouadev.backend.services.BankAccountService;
 import com.fouadev.backend.services.BankService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 import java.util.List;
@@ -32,6 +35,33 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @Bean
+    CommandLineRunner runner(AppUserRepository userRepository,
+                             PasswordEncoder passwordEncoder,
+                             AppRoleRepository appRoleRepository){
+        return args -> {
+            AppUser user = userRepository.findByUsername("fouad");
+            if (user != null) {
+                AppRole appRole1 = appRoleRepository.findById("USER").orElse(null);
+                if (appRole1 != null) {
+                    user.getRoles().add(appRole1);
+                    userRepository.save(user);
+                }
+            }
+            /*if (user != null) throw new RuntimeException("Already exist !");
+            user = AppUser.builder()
+                    .userId(null)
+                    .username("reda")
+                    .password(passwordEncoder.encode("1234"))
+                    .email("reda@gmail.com")
+                    .build();
+            AppUser appUser = userRepository.save(user);*/
+            /*AppRole appRole = AppRole.builder()
+                    .role("USER")
+                    .build();
+            AppRole appRole1 = appRoleRepository.save(appRole);*/
+        };
+    }
 
     //@Bean
     CommandLineRunner run(BankService bankService,
