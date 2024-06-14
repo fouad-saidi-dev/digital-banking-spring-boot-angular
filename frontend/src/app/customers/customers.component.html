@@ -1,5 +1,5 @@
 <div class="container mt-2">
-  <ng-container *ngIf="customers | async as listCustomers; else failureOrloading">
+  <ng-container *ngIf="customerObservable | async as customerPagination; else failureOrloading">
     <div class="card">
       <div class="card-header">
         Customers
@@ -29,11 +29,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let customer of customers | async">
+          <tr *ngFor="let customer of customerPagination.customerDTOS">
             <td>{{customer.id}}</td>
             <td>{{customer.name}}</td>
             <td>{{customer.email}}</td>
-            <td *ngIf="authService.roles.includes('ADMIN')" >
+            <td *ngIf="authService.roles.includes('ADMIN')">
               <button (click)="handleEditCustomer(customer)" class="btn btn-success ms-2">
                 <i class="bi bi-pen"></i>
               </button>
@@ -49,6 +49,12 @@
           </tr>
           </tbody>
         </table>
+        <ul class="nav nav-pills">
+          <li *ngFor="let item of [].constructor(customerPagination.totalPages);let page=index">
+            <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="gotoPage(page)"
+               class="btn  ms-1 mt-1">{{page}}</a>
+          </li>
+        </ul>
       </div>
     </div>
   </ng-container>
@@ -59,7 +65,11 @@
       </div>
     </ng-container>
     <ng-template #loading>
-      Loading....
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border m-5" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </ng-template>
   </ng-template>
 

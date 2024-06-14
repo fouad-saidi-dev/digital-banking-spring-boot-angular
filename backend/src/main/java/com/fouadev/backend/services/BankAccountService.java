@@ -47,4 +47,5 @@ public interface BankAccountService {
 
     List<CustomerDTO> searchCustomer(String keyword);
     List<BankAccountDTO> getAccountsCustomer(Long customerId);
+    CustomerPageDTO getCustomers(String search, int page, int size);
 }

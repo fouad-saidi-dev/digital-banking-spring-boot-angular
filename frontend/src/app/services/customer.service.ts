@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Customer} from "../models/customer.model";
+import {Customer, CustomerPagination} from "../models/customer.model";
 import {environment} from "../../environments/environment.development";
 
 @Injectable({
@@ -29,5 +29,8 @@ export class CustomerService {
 
   getCustomerById(id:number):Observable<Customer> {
     return this.http.get<Customer>(`${environment.backendHost}/customers/${id}`)
+  }
+  public getCustomersPagination(keyword:string,page:number,size:number):Observable<CustomerPagination>{
+    return this.http.get<CustomerPagination>(`${environment.backendHost}/customers/searchPagination?keyword=${keyword}&page=${page}&size=${size}`)
   }
 }

@@ -201,6 +201,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
+
     @Override
     public List<AccountOperationDTO> accountHistory(String accountId) {
         List<AccountOperation> accountOperations = accountOperationRepository.findByBankAccountId(accountId);
@@ -233,6 +234,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public List<CustomerDTO> searchCustomer(String keyword) {
         List<Customer> customers = customerRepository.searchCustomerByName(keyword);
+
         List<CustomerDTO> customerDTOS = customers.stream().map(customer -> mapper.fromCustomer(customer)).collect(Collectors.toList());
         return customerDTOS;
     }
@@ -254,5 +256,23 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         return bankAccountDTOS;
     }
+
+    @Override
+    public CustomerPageDTO getCustomers(String keyword, int page, int size) {
+
+        Page<Customer> customers = customerRepository.searchCustomerByName(keyword, PageRequest.of(page, size));
+
+        List<CustomerDTO> customerDTOS = customers.getContent().stream().map(customer -> mapper.fromCustomer(customer)).toList();
+
+        CustomerPageDTO customerPageDTO = new CustomerPageDTO();
+
+        customerPageDTO.setCustomerDTOS(customerDTOS);
+        customerPageDTO.setCurrentPage(page);
+        customerPageDTO.setSize(size);
+        customerPageDTO.setTotalPages(customers.getTotalPages());
+
+        return customerPageDTO;
+    }
+
 
 }

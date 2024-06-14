@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Customer} from "../models/customer.model";
+import {Customer, CustomerPagination} from "../models/customer.model";
 import {CustomerService} from "../services/customer.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -12,9 +12,12 @@ import {AuthService} from "../services/auth.service";
   styleUrl: './customers.component.css'
 })
 export class CustomersComponent implements OnInit {
-  public customers !: Observable<Array<Customer>>;
+  //public customers !: Observable<Array<Customer>>;
   errorMessage!: string;
   searchFormGroup!: FormGroup;
+  currentPage: number = 0;
+  pageSize: number = 5;
+  customerObservable!:Observable<CustomerPagination>;
 
   constructor(private customerService: CustomerService,
               private formBuilder: FormBuilder,
@@ -32,13 +35,14 @@ export class CustomersComponent implements OnInit {
 
   handleSearchCustomers() {
     let keyword = this.searchFormGroup?.value.keyword;
-    this.customers = this.customerService.searchCustomers(keyword)
+    this.customerObservable = this.customerService.getCustomersPagination(keyword,this.currentPage,this.pageSize)
       .pipe(
         catchError(err => {
           this.errorMessage = err.message;
           return throwError(err);
         })
       )
+    this.customerObservable.subscribe(cn => console.log(this.errorMessage))
   }
 
   handleDeleteCustomer(customer: Customer) {
@@ -59,5 +63,9 @@ export class CustomersComponent implements OnInit {
 
   handleCustomerAccounts(customer: Customer) {
     this.router.navigateByUrl(`/admin/customer-accounts/${customer.id}`)
+  }
+  gotoPage(page: number) {
+    this.currentPage = page
+    this.handleSearchCustomers()
   }
 }

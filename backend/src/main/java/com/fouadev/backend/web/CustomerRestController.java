@@ -1,6 +1,7 @@
 package com.fouadev.backend.web;
 
 import com.fouadev.backend.dtos.CustomerDTO;
+import com.fouadev.backend.dtos.CustomerPageDTO;
 import com.fouadev.backend.exceptions.CustomerNotFoundException;
 import com.fouadev.backend.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,5 +55,13 @@ public class CustomerRestController {
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteCustomer(@PathVariable Long customerId) {
         bankAccountService.deleteCustomer(customerId);
+    }
+
+    @GetMapping("/searchPagination")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
+    public CustomerPageDTO searchCustomerPageable(@RequestParam(name = "keyword",defaultValue = "") String keyword,
+                                                  @RequestParam(name = "page",defaultValue = "0") int page,
+                                                  @RequestParam(name = "size",defaultValue = "5") int size){
+        return bankAccountService.getCustomers("%"+keyword+"%",page,size);
     }
 }

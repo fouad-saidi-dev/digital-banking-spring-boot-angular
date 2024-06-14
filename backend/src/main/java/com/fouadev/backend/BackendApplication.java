@@ -35,27 +35,36 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner runner(AppUserRepository userRepository,
                              PasswordEncoder passwordEncoder,
                              AppRoleRepository appRoleRepository){
         return args -> {
-            AppUser user = userRepository.findByUsername("fouad");
-            if (user != null) {
+            //AppUser user = userRepository.findByUsername("fouad");
+            /*if (user != null) {
                 AppRole appRole1 = appRoleRepository.findById("USER").orElse(null);
                 if (appRole1 != null) {
                     user.getRoles().add(appRole1);
                     userRepository.save(user);
                 }
             }
-            /*if (user != null) throw new RuntimeException("Already exist !");
-            user = AppUser.builder()
+            */
+            //if (user != null) throw new RuntimeException("Already exist !");
+            /*AppUser user = AppUser.builder()
                     .userId(null)
                     .username("reda")
                     .password(passwordEncoder.encode("1234"))
                     .email("reda@gmail.com")
                     .build();
             AppUser appUser = userRepository.save(user);*/
+            AppUser appUser = userRepository.findByUsername("reda");
+            if (appUser != null) {
+                AppRole appRole1 = appRoleRepository.findById("USER").orElse(null);
+                if (appRole1 != null) {
+                    appUser.getRoles().add(appRole1);
+                    userRepository.save(appUser);
+                }
+            }
             /*AppRole appRole = AppRole.builder()
                     .role("USER")
                     .build();
