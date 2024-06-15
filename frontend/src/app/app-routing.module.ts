@@ -10,6 +10,8 @@ import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.c
 import {AuthorizationGuard} from "./guards/authorization.guard";
 import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component";
 import {EditCustomerComponent} from "./edit-customer/edit-customer.component";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -24,6 +26,8 @@ const routes: Routes = [
       {path: 'new-customer', component: NewCustomerComponent, canActivate: [AuthorizationGuard]},
       {path: 'customer-accounts/:id', component: CustomerAccountsComponent},
       {path: 'edit-customer/:id', component: EditCustomerComponent, canActivate: [AuthorizationGuard]},
+      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizationGuard]},
+      {path: 'profile', component: ProfileComponent},
       {path: 'notAuthorized', component: NotAuthorizedComponent}
     ]
   },

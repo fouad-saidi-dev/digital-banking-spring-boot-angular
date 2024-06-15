@@ -38,7 +38,7 @@ public class BackendApplication {
     //@Bean
     CommandLineRunner runner(AppUserRepository userRepository,
                              PasswordEncoder passwordEncoder,
-                             AppRoleRepository appRoleRepository){
+                             AppRoleRepository appRoleRepository) {
         return args -> {
             //AppUser user = userRepository.findByUsername("fouad");
             /*if (user != null) {
@@ -50,14 +50,18 @@ public class BackendApplication {
             }
             */
             //if (user != null) throw new RuntimeException("Already exist !");
-            /*AppUser user = AppUser.builder()
-                    .userId(null)
-                    .username("reda")
-                    .password(passwordEncoder.encode("1234"))
-                    .email("reda@gmail.com")
-                    .build();
-            AppUser appUser = userRepository.save(user);*/
-            AppUser appUser = userRepository.findByUsername("reda");
+            /*Stream.of("admin1","admin2","user1","user2").forEach(name->{
+                AppUser user = AppUser.builder()
+                        .userId(null)
+                        .username(name)
+                        .password(passwordEncoder.encode("1234"))
+                        .email(name+"@gmail.com")
+                        .build();
+                userRepository.save(user);
+            });*/
+
+
+            AppUser appUser = userRepository.findByUsername("admin1");
             if (appUser != null) {
                 AppRole appRole1 = appRoleRepository.findById("USER").orElse(null);
                 if (appRole1 != null) {
@@ -65,6 +69,15 @@ public class BackendApplication {
                     userRepository.save(appUser);
                 }
             }
+
+
+            /*Stream.of("ADMIN","USER").forEach(role->{
+                AppRole appRole = AppRole.builder()
+                    .role(role)
+                    .build();
+                appRoleRepository.save(appRole);
+            });*/
+
             /*AppRole appRole = AppRole.builder()
                     .role("USER")
                     .build();
@@ -74,13 +87,15 @@ public class BackendApplication {
 
     //@Bean
     CommandLineRunner run(BankService bankService,
-                          BankAccountService bankAccountService) {
+                          BankAccountService bankAccountService,
+                          AppUserRepository userRepository) {
         return args -> {
-            Stream.of("Ahmed", "Aymane", "Hiba").forEach(name -> {
+
+            /*Stream.of("fouad", "mohamed", "reda").forEach(name -> {
                 CustomerDTO customer = new CustomerDTO();
                 customer.setName(name);
                 customer.setEmail(name + "@gmail.com");
-                bankAccountService.saveCustomer(customer);
+                bankAccountService.saveCustomer(customer,"admin2");
             });
             bankAccountService.listCustomers().forEach(cus -> {
                 try {
@@ -89,20 +104,21 @@ public class BackendApplication {
                 } catch (CustomerNotFoundException e) {
                     e.printStackTrace();
                 }
-            });
+            });*/
 
             List<BankAccountDTO> bankAccounts = bankAccountService.bankAccountList();
+            AppUser user = userRepository.findByUsername("admin1");
             for (BankAccountDTO bankAccount : bankAccounts) {
                 String accountId;
                 for (int i = 0; i < 10; i++) {
-                    if (bankAccount instanceof CurrentBankAccountDTO){
-                        accountId=((CurrentBankAccountDTO) bankAccount).getId();
+                    if (bankAccount instanceof CurrentBankAccountDTO) {
+                        accountId = ((CurrentBankAccountDTO) bankAccount).getId();
                     } else {
-                        accountId=((SavingBankAccountDTO) bankAccount).getId();
+                        accountId = ((SavingBankAccountDTO) bankAccount).getId();
                     }
-                    bankAccountService.credit(accountId, 10000 + Math.random() * 120000, "CREDIT");
+                    bankAccountService.credit(accountId, 10000 + Math.random() * 120000, "CREDIT", user.getUsername());
                     try {
-                        bankAccountService.debit(accountId, 1000 + Math.random() * 9000, "DEBIT");
+                        bankAccountService.debit(accountId, 1000 + Math.random() * 9000, "DEBIT", user.getUsername());
                     } catch (BalanceNotSufficientException e) {
                         throw new RuntimeException(e);
                     }

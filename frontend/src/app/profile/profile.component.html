@@ -1,0 +1,25 @@
+<div class="container p-3 mt-3">
+  <div class="card justify-content-center w-50">
+    <div class="card-header">
+      Edit Password
+    </div>
+    <div class="card-body">
+      <form [formGroup]="passwordForm"  (ngSubmit)="handleEditPassword()">
+        <div class="mb-3">
+          <label class="form-label">Password:</label>
+          <div style="display: flex">
+            <input [type]="typeInput" class="form-control" formControlName="password">
+           <button type="button" class="btn btn-primary" (click)="showPasswords()">
+             <i class="bi" [ngClass]="{'bi-eye' : typeInput === 'password','bi-eye-slash': typeInput !== 'password'}" >
+
+             </i></button>
+          </div>
+          <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched" class="text-danger mt-2">
+            <small>Password is required.</small>
+          </div>
+        </div>
+        <button class="btn btn-success" [disabled]="passwordForm.invalid" >Edit Password</button>
+      </form>
+    </div>
+  </div>
+</div>

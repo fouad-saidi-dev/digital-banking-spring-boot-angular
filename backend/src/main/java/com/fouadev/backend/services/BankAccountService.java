@@ -1,10 +1,5 @@
 package com.fouadev.backend.services;
-/*
- Created by : Fouad SAIDI on 22/05/2024
- @author : Fouad SAIDI
- @date : 22/05/2024
- @project : e-banking
-*/
+
 
 import com.fouadev.backend.dtos.*;
 import com.fouadev.backend.entities.BankAccount;
@@ -17,7 +12,7 @@ import com.fouadev.backend.exceptions.CustomerNotFoundException;
 import java.util.List;
 
 public interface BankAccountService {
-    CustomerDTO saveCustomer(CustomerDTO customer);
+    CustomerDTO saveCustomer(CustomerDTO customer,String username);
 
     CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, Long customerId, double overDraft) throws CustomerNotFoundException;
 
@@ -27,11 +22,11 @@ public interface BankAccountService {
 
     BankAccountDTO getBankAccount(String accountId) throws BankAccountNotFoundException;
 
-    void debit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
+    void debit(String accountId, double amount, String description,String username) throws BankAccountNotFoundException, BalanceNotSufficientException;
 
-    void credit(String accountId, double amount, String description) throws BankAccountNotFoundException;
+    void credit(String accountId, double amount, String description,String username) throws BankAccountNotFoundException;
 
-    void transfer(String accountIdSource, String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientException;
+    void transfer(String accountIdSource, String accountIdDestination, double amount,String username) throws BankAccountNotFoundException, BalanceNotSufficientException;
 
     List<BankAccountDTO> bankAccountList();
 

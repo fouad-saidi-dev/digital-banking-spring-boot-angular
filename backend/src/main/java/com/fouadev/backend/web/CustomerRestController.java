@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -40,8 +41,8 @@ public class CustomerRestController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
-        return bankAccountService.saveCustomer(customerDTO);
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO, Principal principal) {
+        return bankAccountService.saveCustomer(customerDTO, principal.getName());
     }
 
     @PutMapping(path = "/{customerId}")

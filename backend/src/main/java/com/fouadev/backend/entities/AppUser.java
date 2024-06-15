@@ -22,4 +22,8 @@ public class AppUser {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppRole> roles;
+    @OneToMany(mappedBy = "user")
+    private List<Customer> customers;
+    @OneToMany(mappedBy = "user")
+    private List<AccountOperation> accountOperations;
 }

@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {jwtDecode} from "jwt-decode";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment.development";
+import {Observable} from "rxjs";
+import {User} from "../models/user.module";
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +52,9 @@ export class AuthService {
       this.loadProfile({'access_token': token})
       this.router.navigateByUrl("/admin/customers")
     }
+  }
+
+  editPassword(username:string,user:User):Observable<User> {
+    return this.http.put<User>(`${environment.backendHost}/auth/editPassword/${username}`,user);
   }
 }

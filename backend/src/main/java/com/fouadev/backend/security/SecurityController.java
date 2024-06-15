@@ -1,5 +1,7 @@
 package com.fouadev.backend.security;
 
+import com.fouadev.backend.dtos.AppUserDTO;
+import com.fouadev.backend.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +23,11 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtEncoder jwtEncoder;
+    private UserService userService;
+
+    public SecurityController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/profile")
     public Authentication authentication(Authentication authentication) {
@@ -56,5 +60,11 @@ public class SecurityController {
         String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
 
         return Map.of("access_token", jwt);
+    }
+
+    @PutMapping("/editPassword/{username}")
+    public AppUserDTO updatePassword(@PathVariable String username,@RequestBody AppUserDTO userDTO){
+        AppUserDTO appUserDTO = userService.updatePassword(username,userDTO);
+        return appUserDTO;
     }
 }

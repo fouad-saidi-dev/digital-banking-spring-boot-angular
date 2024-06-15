@@ -7,6 +7,7 @@ import com.fouadev.backend.exceptions.BankAccountNotFoundException;
 import com.fouadev.backend.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -40,18 +41,18 @@ public class BankAccountRestAPI {
        return bankAccountService.getAccountHistory(accountId,page,size);
     }
     @PostMapping("/debit")
-    public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
-        bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(), debitDTO.getDescription());
+    public DebitDTO debit(@RequestBody DebitDTO debitDTO,Principal principal) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(), debitDTO.getDescription(), principal.getName());
         return debitDTO;
     }
     @PostMapping("/credit")
-    public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException {
-        bankAccountService.credit(creditDTO.getAccountId(), creditDTO.getAmount(), creditDTO.getDescription());
+    public CreditDTO credit(@RequestBody CreditDTO creditDTO, Principal principal) throws BankAccountNotFoundException {
+        bankAccountService.credit(creditDTO.getAccountId(), creditDTO.getAmount(), creditDTO.getDescription(), principal.getName());
         return creditDTO;
     }
     @PostMapping("/transfer")
-    public TransferDTO transfer(@RequestBody TransferDTO transferDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
-        bankAccountService.transfer(transferDTO.getAccountIdSource(),transferDTO.getAccountIdDestination(),transferDTO.getAmount());
+    public TransferDTO transfer(@RequestBody TransferDTO transferDTO,Principal principal) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        bankAccountService.transfer(transferDTO.getAccountIdSource(),transferDTO.getAccountIdDestination(),transferDTO.getAmount(), principal.getName());
         return transferDTO;
     }
     @GetMapping("/customer/{customerId}")

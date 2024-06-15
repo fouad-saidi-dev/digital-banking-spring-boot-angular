@@ -18,6 +18,9 @@ import {EditCustomerComponent} from './edit-customer/edit-customer.component';
 import {NotAuthorizedComponent} from './not-authorized/not-authorized.component';
 import {AuthorizationGuard} from "./guards/authorization.guard";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
+import { ProfileComponent } from './profile/profile.component';
+import {BaseChartDirective} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -31,14 +34,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CustomerAccountsComponent,
     EditCustomerComponent,
     NotAuthorizedComponent,
-    DashboardComponent
+    DashboardComponent,
+    BarChartComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BaseChartDirective
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},

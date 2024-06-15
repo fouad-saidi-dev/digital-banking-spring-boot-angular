@@ -21,4 +21,7 @@ public class AccountOperation {
     @ManyToOne
     private BankAccount bankAccount;
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 }

@@ -11,6 +11,7 @@ import com.fouadev.backend.mappers.BankAccountMapperImpl;
 import com.fouadev.backend.repositories.AccountOperationRepository;
 import com.fouadev.backend.repositories.BankAccountRepository;
 import com.fouadev.backend.repositories.CustomerRepository;
+import com.fouadev.backend.security.repo.AppUserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,12 +34,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     private BankAccountRepository bankAccountRepository;
     private AccountOperationRepository accountOperationRepository;
     private BankAccountMapperImpl mapper;
-
+    private AppUserRepository userRepository;
     @Override
-    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO,String username) {
         log.info("saving new Customer");
 
+        AppUser user = userRepository.findByUsername(username);
+
         Customer customer = mapper.fromCustomerDTO(customerDTO);
+        customer.setUser(user);
 
         Customer saveCustomer = customerRepository.save(customer);
 
@@ -117,7 +121,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void debit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException {
+    public void debit(String accountId, double amount, String description,String username) throws BankAccountNotFoundException, BalanceNotSufficientException {
+
+        AppUser user = userRepository.findByUsername(username);
 
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
                 .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found!"));
@@ -131,6 +137,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         operation.setDescription(description);
         operation.setAmount(amount);
         operation.setOperationDate(new Date());
+        operation.setUser(user);
         accountOperationRepository.save(operation);
 
         bankAccount.setBalance(bankAccount.getBalance() - amount);
@@ -138,7 +145,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void credit(String accountId, double amount, String description) throws BankAccountNotFoundException {
+    public void credit(String accountId, double amount, String description,String username) throws BankAccountNotFoundException {
+
+        AppUser user = userRepository.findByUsername(username);
+
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
                 .orElseThrow(() -> new BankAccountNotFoundException("BankAccount not found!"));
 
@@ -149,6 +159,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         operation.setDescription(description);
         operation.setAmount(amount);
         operation.setOperationDate(new Date());
+        operation.setUser(user);
         accountOperationRepository.save(operation);
 
         bankAccount.setBalance(bankAccount.getBalance() + amount);
@@ -156,9 +167,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void transfer(String accountIdSource, String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientException {
-        debit(accountIdSource, amount, "Transfer to " + accountIdDestination);
-        credit(accountIdDestination, amount, "Transfer from " + accountIdSource);
+    public void transfer(String accountIdSource, String accountIdDestination, double amount,String username) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        debit(accountIdSource, amount, "Transfer to " + accountIdDestination,username);
+        credit(accountIdDestination, amount, "Transfer from " + accountIdSource,username);
     }
 
     @Override
