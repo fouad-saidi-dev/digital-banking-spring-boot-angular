@@ -21,6 +21,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { ProfileComponent } from './profile/profile.component';
 import {BaseChartDirective} from "ng2-charts";
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+import { PieChartOperationsComponent } from './charts/pie-chart-operations/pie-chart-operations.component';
+import { LineChartOperationsComponent } from './charts/line-chart-operations/line-chart-operations.component';
+import { UsersComponent } from './users/users.component';
+import { NewUserComponent } from './new-user/new-user.component';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { NewRoleComponent } from './new-role/new-role.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +43,14 @@ import {BaseChartDirective} from "ng2-charts";
     NotAuthorizedComponent,
     DashboardComponent,
     BarChartComponent,
-    ProfileComponent
+    ProfileComponent,
+    PieChartComponent,
+    PieChartOperationsComponent,
+    LineChartOperationsComponent,
+    UsersComponent,
+    NewUserComponent,
+    AddRoleComponent,
+    NewRoleComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +58,7 @@ import {BaseChartDirective} from "ng2-charts";
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    BaseChartDirective
+    BaseChartDirective,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},

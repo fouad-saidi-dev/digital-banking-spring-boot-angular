@@ -2,9 +2,6 @@ package com.fouadev.backend.services;
 
 
 import com.fouadev.backend.dtos.*;
-import com.fouadev.backend.entities.BankAccount;
-import com.fouadev.backend.entities.CurrentAccount;
-import com.fouadev.backend.entities.SavingAccount;
 import com.fouadev.backend.exceptions.BalanceNotSufficientException;
 import com.fouadev.backend.exceptions.BankAccountNotFoundException;
 import com.fouadev.backend.exceptions.CustomerNotFoundException;
@@ -43,4 +40,6 @@ public interface BankAccountService {
     List<CustomerDTO> searchCustomer(String keyword);
     List<BankAccountDTO> getAccountsCustomer(Long customerId);
     CustomerPageDTO getCustomers(String search, int page, int size);
+    List<AccountOperationDTO> accountOperationsList();
+
 }

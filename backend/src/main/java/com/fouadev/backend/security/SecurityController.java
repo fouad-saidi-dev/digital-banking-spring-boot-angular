@@ -1,8 +1,13 @@
 package com.fouadev.backend.security;
 
 import com.fouadev.backend.dtos.AppUserDTO;
+import com.fouadev.backend.mappers.BankAccountMapperImpl;
+import com.fouadev.backend.security.requests.AppUserRequest;
+import com.fouadev.backend.security.responses.AppUserResponse;
 import com.fouadev.backend.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,9 +30,10 @@ public class SecurityController {
     @Autowired
     private JwtEncoder jwtEncoder;
     private UserService userService;
-
-    public SecurityController(UserService userService) {
+    private BankAccountMapperImpl mapper;
+    public SecurityController(UserService userService, BankAccountMapperImpl mapper) {
         this.userService = userService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/profile")
@@ -61,10 +68,35 @@ public class SecurityController {
 
         return Map.of("access_token", jwt);
     }
+    @PostMapping("/addUser")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public AppUserResponse saveUser(@RequestBody AppUserRequest userRequest){
+        AppUserDTO userDTO = mapper.fromAppUserRequest(userRequest);
+        AppUserDTO appUserDTO = userService.addNewUser(userDTO);
+        AppUserResponse userResponse = mapper.fromAppUserDTOResponse(appUserDTO);
+        return userResponse;
+    }
 
     @PutMapping("/editPassword/{username}")
     public AppUserDTO updatePassword(@PathVariable String username,@RequestBody AppUserDTO userDTO){
         AppUserDTO appUserDTO = userService.updatePassword(username,userDTO);
         return appUserDTO;
+    }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public List<AppUserResponse> getUsers(){
+        List<AppUserDTO> appUserDTOS = userService.getUsers();
+        List<AppUserResponse> userResponses = appUserDTOS.stream()
+                .map(userDTO -> mapper.fromAppUserDTOResponse(userDTO))
+                .toList();
+        return userResponses;
+    }
+
+    @PostMapping("/addRole")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public void addRoleToUser(@Param(value = "username") String username,
+                              @Param(value = "role") String role){
+        userService.addRoleToUser(username,role);
     }
 }

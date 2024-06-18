@@ -1,0 +1,32 @@
+<div class="container p-3">
+  <div class="card">
+    <div class="card-header">
+      <button (click)="goToNewUser()" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>
+        New User
+      </button>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users | async">
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <button class="btn btn-info" (click)="goToAddRole(user)">
+              add role
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

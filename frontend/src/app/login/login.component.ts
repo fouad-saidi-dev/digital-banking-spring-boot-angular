@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   formLogin!: FormGroup;
-
+  errorMessage!:string;
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) {
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       },
       error: err => {
         console.log(err)
+        this.errorMessage=err.message
       }
     })
   }

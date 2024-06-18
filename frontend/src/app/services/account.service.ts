@@ -45,4 +45,14 @@ export class AccountService {
   public getAccountsCustomer(id:number):Observable<Array<Account>>{
     return this.http.get<Array<Account>>(`${environment.backendHost}/accounts/customer/${id}`);
   }
+
+  public countOperationsCredit(){
+    return this.http.get<any>(`${environment.backendHost}/accounts/countOperationsCredit`)
+  }
+  public countOperationsDebit(){
+    return this.http.get<any>(`${environment.backendHost}/accounts/countOperationsDebit`)
+  }
+  public getAccounts():Observable<Array<Account>> {
+    return this.http.get<Array<Account>>(`${environment.backendHost}/accounts`)
+  }
 }

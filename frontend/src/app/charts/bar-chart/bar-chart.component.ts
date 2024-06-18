@@ -1,6 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
-import {ChartData, ChartOptions, ChartType} from "chart.js";
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  ChartData,
+  ChartOptions,
+  ChartType,
+  LinearScale, Title
+} from "chart.js";
 import {CustomerService} from "../../services/customer.service";
 
 @Component({
@@ -25,6 +34,8 @@ export class BarChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    Chart.register(BarController, BarElement, LinearScale, CategoryScale, Title);
+    console.log('Chart type:', this.barChartType);
     this.getCustomers()
   }
 

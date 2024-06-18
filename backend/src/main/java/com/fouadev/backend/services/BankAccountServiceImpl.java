@@ -244,9 +244,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<CustomerDTO> searchCustomer(String keyword) {
+
         List<Customer> customers = customerRepository.searchCustomerByName(keyword);
 
         List<CustomerDTO> customerDTOS = customers.stream().map(customer -> mapper.fromCustomer(customer)).collect(Collectors.toList());
+
         return customerDTOS;
     }
 
@@ -283,6 +285,15 @@ public class BankAccountServiceImpl implements BankAccountService {
         customerPageDTO.setTotalPages(customers.getTotalPages());
 
         return customerPageDTO;
+    }
+
+    @Override
+    public List<AccountOperationDTO> accountOperationsList() {
+        List<AccountOperation> accountOperations = accountOperationRepository.findAll();
+        List<AccountOperationDTO> accountOperationDTOS = accountOperations
+                .stream().map(accountOperation -> mapper.fromAccountOperation(accountOperation))
+                .toList();
+        return accountOperationDTOS;
     }
 
 

@@ -12,6 +12,10 @@ import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component"
 import {EditCustomerComponent} from "./edit-customer/edit-customer.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {UsersComponent} from "./users/users.component";
+import {NewUserComponent} from "./new-user/new-user.component";
+import {NewRoleComponent} from "./new-role/new-role.component";
+import {AddRoleComponent} from "./add-role/add-role.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -28,6 +32,10 @@ const routes: Routes = [
       {path: 'edit-customer/:id', component: EditCustomerComponent, canActivate: [AuthorizationGuard]},
       {path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizationGuard]},
       {path: 'profile', component: ProfileComponent},
+      {path: 'users', component: UsersComponent,canActivate: [AuthorizationGuard]},
+      {path: 'new-user', component: NewUserComponent,canActivate: [AuthorizationGuard]},
+      {path: 'new-role', component: NewRoleComponent,canActivate: [AuthorizationGuard]},
+      {path: 'add-role-user/:id', component: AddRoleComponent,canActivate: [AuthorizationGuard]},
       {path: 'notAuthorized', component: NotAuthorizedComponent}
     ]
   },

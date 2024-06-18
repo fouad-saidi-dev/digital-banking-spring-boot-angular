@@ -9,5 +9,6 @@ import java.util.List;
 public class AppUserDTO {
     private String username;
     private String password;
+    private String email;
     private List<AppRole> roles;
 }

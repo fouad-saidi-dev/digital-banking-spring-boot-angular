@@ -1,0 +1,17 @@
+<div class="container p-5 mt-3 w-50">
+  <div class="card">
+    <div class="card-header">
+      Add Role To User
+    </div>
+    <div class="card-body">
+      <form [formGroup]="addRoleToUserForm" (ngSubmit)="handleAddRole()">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="role">
+          <option selected>Open this select menu</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="USER">USER</option>
+        </select>
+        <button class="btn btn-success" [disabled]="addRoleToUserForm.invalid">Add Role</button>
+      </form>
+    </div>
+  </div>
+</div>

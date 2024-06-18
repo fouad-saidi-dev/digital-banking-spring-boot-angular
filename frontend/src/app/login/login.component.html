@@ -12,6 +12,9 @@
        <div class="mb-3">
          <label class="form-label">Password</label>
          <input type="password" class="form-control" formControlName="password">
+         <span *ngIf="errorMessage!=null" class="text-danger">
+         Password or username incorrect
+       </span>
        </div>
        <button class="btn btn-success" [disabled]="formLogin.invalid">Login</button>
      </form>

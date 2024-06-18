@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">
+      New Customer
+    </div>
+    <div class="card-body">
+      <form [formGroup]="newUserForm" (ngSubmit)="handeSaveUser()">
+        <div class="mb-3">
+          <label class="form-label">Name:</label>
+          <input type="text" class="form-control" formControlName="username">
+          <span class="text-danger"
+                *ngIf="newUserForm.controls['username'].touched
+              && newUserForm.controls['username'].errors
+              && newUserForm.controls['username'].errors!['required']">
+            Username is Required
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email:</label>
+          <input type="email" class="form-control" formControlName="email">
+          <span class="text-danger"
+                *ngIf="newUserForm.controls['email'].touched
+              && newUserForm.controls['email'].errors
+              && newUserForm.controls['email'].errors!['email']">
+            Email not valid
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password:</label>
+          <input type="password" class="form-control" formControlName="password">
+          <span class="text-danger"
+                *ngIf="newUserForm.controls['password'].touched
+              && newUserForm.controls['password'].errors
+              && newUserForm.controls['password'].errors!['Required']">
+            Password not valid
+          </span>
+        </div>
+        <button class="btn btn-success" [disabled]="newUserForm.invalid">Save User</button>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+

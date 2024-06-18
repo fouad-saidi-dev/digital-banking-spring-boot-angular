@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" routerLink="/admin/customers">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.roles.includes('ADMIN')">
           <a class="nav-link active" aria-current="page" routerLink="/admin/dashboard">Dashboard</a>
         </li>
         <li class="nav-item">
@@ -24,6 +24,17 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" routerLink="/admin/customers">Search Customer</a></li>
             <li><a *ngIf="authService.roles.includes('ADMIN')" class="dropdown-item" routerLink="/admin/new-customer">New Customer</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" *ngIf="authService.roles.includes('ADMIN')">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
+             aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+            <li><a class="dropdown-item" routerLink="/admin/users">Users</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/new-user">New User</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/new-role">New Role</a></li>
           </ul>
         </li>
       </ul>

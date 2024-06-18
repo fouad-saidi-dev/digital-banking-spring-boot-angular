@@ -8,6 +8,8 @@ package com.fouadev.backend.mappers;
 
 import com.fouadev.backend.dtos.*;
 import com.fouadev.backend.entities.*;
+import com.fouadev.backend.security.requests.AppUserRequest;
+import com.fouadev.backend.security.responses.AppUserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -65,5 +67,28 @@ public class BankAccountMapperImpl {
         AppUserDTO userDTO = new AppUserDTO();
         BeanUtils.copyProperties(appUser,userDTO);
         return userDTO;
+    }
+    public AppRole fromAppRoleDTO(AppRoleDTO appRoleDTO){
+        AppRole role = new AppRole();
+        BeanUtils.copyProperties(role,appRoleDTO);
+        return role;
+    }
+    public AppRoleDTO fromAppRole(AppRole appRole){
+        AppRoleDTO appRoleDTO = new AppRoleDTO();
+        BeanUtils.copyProperties(appRoleDTO,appRole);
+        return appRoleDTO;
+    }
+    public AppUserDTO fromAppUserRequest(AppUserRequest userRequest){
+        AppUserDTO appUserDTO = new AppUserDTO();
+        appUserDTO.setPassword(userRequest.getPassword());
+        appUserDTO.setUsername(userRequest.getUsername());
+        appUserDTO.setEmail(userRequest.getEmail());
+        return appUserDTO;
+    }
+    public AppUserResponse fromAppUserDTOResponse(AppUserDTO appUserDTO){
+        AppUserResponse userResponse = new AppUserResponse();
+        userResponse.setUsername(appUserDTO.getUsername());
+        userResponse.setEmail(appUserDTO.getEmail());
+        return userResponse;
     }
 }
