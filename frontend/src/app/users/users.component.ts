@@ -31,4 +31,5 @@ export class UsersComponent implements OnInit {
   goToAddRole(user:User) {
     this.router.navigateByUrl(`/admin/add-role-user/${user.username}`)
   }
+
 }

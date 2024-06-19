@@ -1,5 +1,6 @@
 package com.fouadev.backend.security;
 
+import com.fouadev.backend.dtos.AppRoleDTO;
 import com.fouadev.backend.dtos.AppUserDTO;
 import com.fouadev.backend.mappers.BankAccountMapperImpl;
 import com.fouadev.backend.security.requests.AppUserRequest;
@@ -98,5 +99,16 @@ public class SecurityController {
     public void addRoleToUser(@Param(value = "username") String username,
                               @Param(value = "role") String role){
         userService.addRoleToUser(username,role);
+    }
+    @DeleteMapping("/deleteRole")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public void removeRoleFromUser(@Param(value = "username") String username,
+                                   @Param(value = "role") String role){
+        userService.removeRoleFromUser(username,role);
+    }
+    @GetMapping("/roles/{username}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public List<AppRoleDTO> getRolesByUser(@PathVariable String username){
+        return userService.getRolesUser(username);
     }
 }

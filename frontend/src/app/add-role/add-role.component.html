@@ -1,17 +1,35 @@
-<div class="container p-5 mt-3 w-50">
+<div class="container p-5 mt-3">
   <div class="card">
     <div class="card-header">
-      Add Role To User
-    </div>
-    <div class="card-body">
+      <h3>Add Role To User</h3><br>
       <form [formGroup]="addRoleToUserForm" (ngSubmit)="handleAddRole()">
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="role">
+        <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example" formControlName="role">
           <option selected>Open this select menu</option>
           <option value="ADMIN">ADMIN</option>
           <option value="USER">USER</option>
         </select>
         <button class="btn btn-success" [disabled]="addRoleToUserForm.invalid">Add Role</button>
       </form>
+    </div>
+    <div class="card-body">
+<table class="table tab-content">
+  <thead>
+  <tr>
+    <th>roles</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let role of roles | async">
+    <td>{{role.role}}</td>
+    <td *ngIf="role.role.includes('USER')">
+      <button class="btn btn-danger" (click)="handleRemoveRole(role.role)">
+        remove role
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
     </div>
   </div>
 </div>

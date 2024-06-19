@@ -70,12 +70,12 @@ public class BankAccountMapperImpl {
     }
     public AppRole fromAppRoleDTO(AppRoleDTO appRoleDTO){
         AppRole role = new AppRole();
-        BeanUtils.copyProperties(role,appRoleDTO);
+        BeanUtils.copyProperties(appRoleDTO,role);
         return role;
     }
     public AppRoleDTO fromAppRole(AppRole appRole){
         AppRoleDTO appRoleDTO = new AppRoleDTO();
-        BeanUtils.copyProperties(appRoleDTO,appRole);
+        BeanUtils.copyProperties(appRole,appRoleDTO);
         return appRoleDTO;
     }
     public AppUserDTO fromAppUserRequest(AppUserRequest userRequest){

@@ -1,10 +1,4 @@
 package com.fouadev.backend.security.service;
-/*
- Created by : Fouad SAIDI on 12/06/2024
- @author : Fouad SAIDI
- @date : 12/06/2024
- @project : e-banking
-*/
 
 import com.fouadev.backend.dtos.AppRoleDTO;
 import com.fouadev.backend.dtos.AppUserDTO;
@@ -19,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -94,11 +89,14 @@ public class UserServiceImpl implements UserService {
         AppRole appRole = appRoleRepository.findById(role).orElse(null);
 
         user.getRoles().add(appRole);
+
     }
 
     @Override
     public void removeRoleFromUser(String username, String role) {
-
+        AppUser appUser = userRepository.findByUsername(username);
+        AppRole appRole = appRoleRepository.findById(role).orElse(null);
+        appUser.getRoles().remove(appRole);
     }
 
     @Override
@@ -108,5 +106,13 @@ public class UserServiceImpl implements UserService {
                 .map(appUser -> mapper.fromAppUser(appUser))
                 .toList();
         return appUserDTOS;
+    }
+
+    @Override
+    public List<AppRoleDTO> getRolesUser(String username) {
+        AppUser user = userRepository.findByUsername(username);
+        AppUserDTO appUserDTO = mapper.fromAppUser(user);
+        List<AppRoleDTO> roleDTOS = appUserDTO.getRoles().stream().map(r->mapper.fromAppRole(r)).toList();
+        return roleDTOS;
     }
 }
