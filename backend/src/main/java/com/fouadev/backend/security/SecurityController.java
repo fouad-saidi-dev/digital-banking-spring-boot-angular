@@ -79,9 +79,11 @@ public class SecurityController {
     }
 
     @PutMapping("/editPassword/{username}")
-    public AppUserDTO updatePassword(@PathVariable String username,@RequestBody AppUserDTO userDTO){
+    public AppUserResponse updatePassword(@PathVariable String username,@RequestBody AppUserRequest userRequest){
+        AppUserDTO userDTO = mapper.fromAppUserRequest(userRequest);
         AppUserDTO appUserDTO = userService.updatePassword(username,userDTO);
-        return appUserDTO;
+        AppUserResponse userResponse = mapper.fromAppUserDTOResponse(appUserDTO);
+        return userResponse;
     }
 
     @GetMapping("/users")
@@ -93,7 +95,11 @@ public class SecurityController {
                 .toList();
         return userResponses;
     }
-
+    @PostMapping("/newRole")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public AppRoleDTO newRole(@RequestBody AppRoleDTO appRoleDTO){
+        return userService.addNewRole(appRoleDTO);
+    }
     @PostMapping("/addRole")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void addRoleToUser(@Param(value = "username") String username,

@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AppRoleDTO addNewRole(String role, AppRoleDTO appRoleDTO) {
+    public AppRoleDTO addNewRole(AppRoleDTO appRoleDTO) {
 
-        AppRole appRole = appRoleRepository.findById(role).orElse(null);
+        AppRole appRole = appRoleRepository.findById(appRoleDTO.getRole()).orElse(null);
 
         if (appRole != null) throw new RuntimeException("Role Already Exist !");
 
