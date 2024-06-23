@@ -13,8 +13,16 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/admin/customers">Customers</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
+             aria-expanded="false">
+            Accounts
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+            <li><a class="dropdown-item" *ngIf="authService.roles.includes('ADMIN')" routerLink="/admin/display-accounts">Display Accounts</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/accounts">Accounts</a></li>
+            <li><a class="dropdown-item" *ngIf="authService.roles.includes('ADMIN')" routerLink="/admin/new-account">New Account</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"

@@ -18,10 +18,18 @@ export interface AccountOperation {
 }
 
 export interface Account {
+  id:string;
   type:string;
   createdAt: Date;
   status: string;
   customerDTO: Customer;
   interestRate: number;
   overDraft:number;
+  balance:number;
+}
+export interface AccountPagination{
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  bankAccountDTOS:Account[]
 }

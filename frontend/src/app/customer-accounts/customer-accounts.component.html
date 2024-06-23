@@ -8,6 +8,7 @@
           <th>DATE CREATION</th>
           <th>TYPE</th>
           <th>NAME</th>
+          <th>BALANCE</th>
           <th>INTEREST RATE</th>
           <th>OVER DRAFT</th>
         </tr>
@@ -17,6 +18,7 @@
           <td>{{account.createdAt | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
           <td>{{account.type}}</td>
           <td>{{account.customerDTO.name}}</td>
+          <td>{{account.balance}}</td>
           <td>{{account.interestRate}}</td>
           <td>{{account.overDraft}}</td>
         </tr>

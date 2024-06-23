@@ -1,0 +1,55 @@
+<div class="container p-3">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <div>
+        <h2 class="h2">Add New Account</h2>
+        <h3 class="text-center">Choose Account Type : </h3>
+      </div>
+      <div class="justify-content-center d-flex">
+        <button [class]="showForm === 'saving' ? 'btn btn-primary ms-2' : 'btn btn-secondary ms-2'" (click)="showFormAccount('saving')">Saving Account</button>
+        <button [class]="showForm === 'current' ? 'btn btn-primary ms-2' : 'btn btn-secondary ms-2'" (click)="showFormAccount('current')">Current Account</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <form *ngIf="showForm === 'saving'" [formGroup]="formSaving" (ngSubmit)="handleSaveAccount()">
+        <div class="mb-3">
+          <label class="form-label">Balance</label>
+          <input type="text" class="form-control" formControlName="balance">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Interest Rate :</label>
+          <input type="text" class="form-control" formControlName="interestRate">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Customer :</label>
+          <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example"
+                  formControlName="customerDTO">
+            <option selected>Open this select menu</option>
+            <option *ngFor="let customer of customers | async" [value]="customer.id">{{customer.name}}</option>
+          </select>
+        </div>
+
+        <button class="btn btn-success" [disabled]="formSaving.invalid">Save Account</button>
+      </form>
+      <form *ngIf="showForm === 'current'" [formGroup]="formCurrent" (ngSubmit)="handleSaveAccount()">
+        <div class="mb-3">
+          <label class="form-label">Balance</label>
+          <input type="text" class="form-control" formControlName="balance">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Over Draft</label>
+          <input type="text" class="form-control" formControlName="overDraft">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Customer :</label>
+          <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example"
+                  formControlName="customerDTO">
+            <option selected>Open this select menu</option>
+            <option *ngFor="let customer of customers | async" [value]="customer.id">{{customer.name}}</option>
+          </select>
+        </div>
+        <button class="btn btn-success" [disabled]="formCurrent.invalid">Save Account</button>
+      </form>
+    </div>
+  </div>
+</div>

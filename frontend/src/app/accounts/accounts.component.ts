@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../services/account.service";
-import {catchError, Observable, Subscription, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AccountDetails} from "../models/account.model";
 import {AuthService} from "../services/auth.service";
@@ -20,7 +20,7 @@ export class AccountsComponent implements OnInit {
 
   constructor(private accountService: AccountService,
               private formBuilder: FormBuilder,
-              public authService:AuthService) {
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -47,42 +47,46 @@ export class AccountsComponent implements OnInit {
   }
 
   handleAccountOperation() {
-    let accountId :string = this.accountFormGroup.value.accountId;
-    let operationType=this.operationFormGroup.value.type;
-    let amount :number =this.operationFormGroup.value.amount;
-    let description :string =this.operationFormGroup.value.description;
-    let accountDestination :string =this.operationFormGroup.value.accountDestination;
+    let accountId: string = this.accountFormGroup.value.accountId;
+    let operationType = this.operationFormGroup.value.type;
+    let amount: number = this.operationFormGroup.value.amount;
+    let description: string = this.operationFormGroup.value.description;
+    let accountDestination: string = this.operationFormGroup.value.accountDestination;
 
-    if(operationType=='DEBIT'){
-      this.accountService.debit(accountId, amount,description).subscribe({
-        next : (data)=>{
+    if (operationType == 'DEBIT') {
+      this.accountService.debit(accountId, amount, description).subscribe({
+        next: (data) => {
           alert("Success Debit");
           this.operationFormGroup.reset();
           this.handleSearchAccount();
         },
-        error : (err)=>{
+        error: (err) => {
           console.log(err);
         }
       });
-    } else if (operationType == 'CREDIT'){
-      this.accountService.credit(accountId, amount,description).subscribe({
-        next : (data)=>{
+    } else if (operationType == 'CREDIT') {
+      console.log("OperationType :", operationType)
+      this.accountService.credit(accountId, amount, description).subscribe({
+        next: (data) => {
           alert("Success Credit");
+          console.log("OperationType :", operationType)
           this.operationFormGroup.reset();
           this.handleSearchAccount();
         },
-        error : (err)=>{
+        error: (err) => {
           console.log(err);
         }
       });
-    } else if (operationType == 'TRANSFER'){
-      this.accountService.transfer(accountId,accountDestination, amount,description).subscribe({
-        next : (data)=>{
+    } else if (operationType == 'TRANSFER') {
+      console.log("OperationType :", operationType)
+      this.accountService.transfer(accountId, accountDestination, amount, description).subscribe({
+        next: (data) => {
           alert("Success Transfer");
+          console.log("OperationType :", operationType)
           this.operationFormGroup.reset();
           this.handleSearchAccount();
         },
-        error : (err)=>{
+        error: (err) => {
           console.log(err);
         }
       });

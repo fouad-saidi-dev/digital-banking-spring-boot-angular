@@ -115,4 +115,18 @@ public class UserServiceImpl implements UserService {
         List<AppRoleDTO> roleDTOS = appUserDTO.getRoles().stream().map(r->mapper.fromAppRole(r)).toList();
         return roleDTOS;
     }
+
+    @Override
+    public List<AppRoleDTO> getRoles() {
+        List<AppRole> appRoles = appRoleRepository.findAll();
+        List<AppRoleDTO> appRoleDTOS = appRoles.stream()
+                .map(appRole -> mapper.fromAppRole(appRole))
+                .toList();
+        return appRoleDTOS;
+    }
+
+    @Override
+    public void deleteRole(String role) {
+        appRoleRepository.deleteById(role);
+    }
 }

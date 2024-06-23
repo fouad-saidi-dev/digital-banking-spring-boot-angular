@@ -1,1 +1,35 @@
-<p>new-role works!</p>
+<div class="container p-3 mt-5">
+  <div class="card">
+    <div class="card-header">
+     <div class="h2">Add New Role</div>
+      <form [formGroup]="formRole" (ngSubmit)="handleSaveRole()">
+        <div class="mb-3">
+          <label class="form-label">Role :</label>
+          <input type="text" class="form-control text-uppercase" formControlName="role" >
+        </div>
+        <button class="btn btn-success" [disabled]="formRole.invalid">Save Role</button>
+      </form>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let role of roles | async">
+          <td>{{role.role}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="handleDeleteRole(role)">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="isAlert" class="alert alert-success w-25 fixed-bottom mb-2" role="alert">
+    Role Saved Successfully!
+  </div>
+</div>

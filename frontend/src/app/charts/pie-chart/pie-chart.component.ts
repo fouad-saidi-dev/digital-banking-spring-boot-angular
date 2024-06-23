@@ -27,7 +27,7 @@ export class PieChartComponent implements OnInit {
     labels: this.pieChartLabels,
     datasets: [
       {
-        label:'Accounts Type',
+        label:'Accounts',
         data:[0,0],
         backgroundColor:['#FFBB99', '#FFCC99']
       }
@@ -53,7 +53,7 @@ export class PieChartComponent implements OnInit {
           labels: this.pieChartLabels,
           datasets: [
             {
-              label: 'Accounts Type',
+              label: 'Accounts',
               data:[currentAccount,savingAccount],
               backgroundColor: ['#FFBB99', '#FFCC99']
             }

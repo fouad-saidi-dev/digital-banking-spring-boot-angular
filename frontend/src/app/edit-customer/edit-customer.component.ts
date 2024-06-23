@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Customer} from "../models/customer.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../services/customer.service";
-import {catchError, Observable, throwError} from "rxjs";
 
 @Component({
   selector: 'app-edit-customer',
@@ -26,6 +25,7 @@ export class EditCustomerComponent implements OnInit {
       next:(customer:Customer) => {
         console.log(customer)
         this.editCustomerForm = this.formBuilder.group({
+          id: this.formBuilder.control(customer.id),
           name: this.formBuilder.control(customer.name,Validators.required),
           email: this.formBuilder.control(customer.email,[Validators.required,Validators.email])
         })

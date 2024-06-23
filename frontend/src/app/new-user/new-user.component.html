@@ -38,8 +38,9 @@
         <button class="btn btn-success" [disabled]="newUserForm.invalid">Save User</button>
       </form>
     </div>
-
-
+  </div>
+  <div *ngIf="isAlert" class="alert alert-success w-25 fixed-bottom mb-2" role="alert">
+    User has been saved successfully!
   </div>
 </div>
 

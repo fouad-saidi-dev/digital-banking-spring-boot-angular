@@ -16,6 +16,8 @@ import {UsersComponent} from "./users/users.component";
 import {NewUserComponent} from "./new-user/new-user.component";
 import {NewRoleComponent} from "./new-role/new-role.component";
 import {AddRoleComponent} from "./add-role/add-role.component";
+import {NewBankAccountComponent} from "./new-bank-account/new-bank-account.component";
+import {DisplayAccountsComponent} from "./display-accounts/display-accounts.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -36,6 +38,8 @@ const routes: Routes = [
       {path: 'new-user', component: NewUserComponent,canActivate: [AuthorizationGuard]},
       {path: 'new-role', component: NewRoleComponent,canActivate: [AuthorizationGuard]},
       {path: 'add-role-user/:id', component: AddRoleComponent,canActivate: [AuthorizationGuard]},
+      {path: 'new-account', component: NewBankAccountComponent,canActivate: [AuthorizationGuard]},
+      {path: 'display-accounts', component: DisplayAccountsComponent},
       {path: 'notAuthorized', component: NotAuthorizedComponent}
     ]
   },

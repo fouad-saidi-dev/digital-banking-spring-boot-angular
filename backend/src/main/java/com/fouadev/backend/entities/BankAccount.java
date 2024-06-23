@@ -27,5 +27,8 @@ public class BankAccount {
     private Customer customer;
     @OneToMany(mappedBy = "bankAccount",fetch = FetchType.LAZY)
     private List<AccountOperation> accountOperations;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
 }

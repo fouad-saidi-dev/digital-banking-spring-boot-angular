@@ -20,6 +20,5 @@ public class Customer {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<BankAccount> bankAccounts;
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private AppUser user;
 }

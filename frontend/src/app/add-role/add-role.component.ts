@@ -3,6 +3,7 @@ import {UserService} from "../services/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {catchError, Observable, throwError} from "rxjs";
+import {Role} from "../models/role.model";
 
 @Component({
   selector: 'app-add-role',
@@ -12,7 +13,8 @@ import {catchError, Observable, throwError} from "rxjs";
 export class AddRoleComponent implements OnInit {
   username!: string;
   addRoleToUserForm!: FormGroup;
-  roles!: Observable<Array<any>>;
+  rolesByUser!: Observable<Array<Role>>;
+  roles!: Observable<Array<Role>>;
 
   constructor(private userService: UserService,
               private activatedRoute: ActivatedRoute,
@@ -26,6 +28,7 @@ export class AddRoleComponent implements OnInit {
       role: this.formBuilder.control('', Validators.required)
     })
     this.getRoles()
+    this.getRolesByUser()
   }
 
 
@@ -34,6 +37,7 @@ export class AddRoleComponent implements OnInit {
     this.userService.addRoleToUser(this.username, role).subscribe({
       next: value => {
         alert("role was added successfully!")
+        this.getRolesByUser()
         console.log(value)
       },
       error: err => {
@@ -43,7 +47,15 @@ export class AddRoleComponent implements OnInit {
   }
 
   getRoles() {
-    this.roles = this.userService.getRolesUser(this.username).pipe(
+    this.roles = this.userService.getRoles().pipe(
+      catchError(err => {
+        return throwError(err);
+      })
+    )
+  }
+
+  getRolesByUser() {
+    this.rolesByUser = this.userService.getRolesUser(this.username).pipe(
       catchError(err => {
         return throwError(err);
       })
@@ -51,13 +63,15 @@ export class AddRoleComponent implements OnInit {
   }
 
   handleRemoveRole(role: string) {
-    this.userService.removeRoleFromUser(this.username, role).subscribe({
-      next: value => {
-        this.getRoles()
-      },
-      error: err => {
-        console.log(err)
-      }
-    })
+    if (confirm("Are you sure you want delete role " + role + " from user " + this.username + "?")) {
+      this.userService.removeRoleFromUser(this.username, role).subscribe({
+        next: value => {
+          this.getRolesByUser()
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
+    }
   }
 }

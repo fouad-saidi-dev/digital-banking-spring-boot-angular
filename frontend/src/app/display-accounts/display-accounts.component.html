@@ -1,0 +1,70 @@
+<div class="container p-3">
+  <ng-container *ngIf="accountObservable | async as accounts; else failureOrLoading">
+    <div class="card">
+      <div class="card-header">
+        <div class="h1">Accounts</div>
+        <button *ngIf="authService.roles.includes('ADMIN')" (click)="goToNewAccount()" class="btn btn-success">
+          <i class="bi bi-plus-circle"></i>
+          New Account
+        </button>
+      </div>
+      <div class="card-body">
+        <div *ngIf="searchFormGroup">
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchAccount()">
+            <div class="input-group">
+              <label class="input-group-text">Keyword</label>
+              <input type="text" formControlName="keyword" class="form-control">
+              <button class="btn btn-info">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>DATE CREATION</th>
+            <th>TYPE</th>
+            <th>NAME</th>
+            <th>BALANCE</th>
+            <th>INTEREST RATE</th>
+            <th>OVER DRAFT</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let account of accounts.bankAccountDTOS">
+            <td>{{account.id}}</td>
+            <td>{{account.createdAt | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
+            <td>{{account.type}}</td>
+            <td>{{account.customerDTO.name}}</td>
+            <td>{{account.balance}}</td>
+            <td>{{account.interestRate}}</td>
+            <td>{{account.overDraft}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li *ngFor="let item of [].constructor(accounts.totalPages);let page=index">
+            <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="gotoPage(page)"
+               class="btn  ms-1 mt-1">{{page+1}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="text-danger">
+        {{errorMessage}}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border m-5" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

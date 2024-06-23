@@ -1,12 +1,11 @@
 <div class="container p-5 mt-3">
-  <div class="card">
+  <div class="card w-75 m-auto">
     <div class="card-header">
       <h3>Add Role To User</h3><br>
       <form [formGroup]="addRoleToUserForm" (ngSubmit)="handleAddRole()">
         <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example" formControlName="role">
           <option selected>Open this select menu</option>
-          <option value="ADMIN">ADMIN</option>
-          <option value="USER">USER</option>
+          <option *ngFor="let r of roles | async" value="{{r.role}}">{{r.role}}</option>
         </select>
         <button class="btn btn-success" [disabled]="addRoleToUserForm.invalid">Add Role</button>
       </form>
@@ -20,7 +19,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let role of roles | async">
+  <tr *ngFor="let role of rolesByUser | async">
     <td>{{role.role}}</td>
     <td *ngIf="role.role.includes('USER')">
       <button class="btn btn-danger" (click)="handleRemoveRole(role.role)">

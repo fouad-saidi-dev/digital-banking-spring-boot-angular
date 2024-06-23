@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next: data => {
         this.authService.loadProfile(data)
-        this.router.navigateByUrl("/admin")
+        this.router.navigateByUrl("/admin/customers")
         console.log(data)
       },
       error: err => {

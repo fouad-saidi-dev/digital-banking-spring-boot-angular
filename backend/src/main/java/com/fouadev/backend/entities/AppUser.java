@@ -26,4 +26,6 @@ public class AppUser {
     private List<Customer> customers;
     @OneToMany(mappedBy = "user")
     private List<AccountOperation> accountOperations;
+    @OneToMany(mappedBy = "user")
+    private List<BankAccount> bankAccounts;
 }

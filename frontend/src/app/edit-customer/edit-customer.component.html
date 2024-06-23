@@ -1,7 +1,7 @@
 <div class="container p-2">
-  <div class="card" *ngIf="editCustomerForm">
+  <div class="card w-50 m-auto" *ngIf="editCustomerForm">
     <div class="card-header">
-      Edit Customer
+      <div class="h2"> Edit Customer </div>
     </div>
     <div class="card-body">
       <form [formGroup]="editCustomerForm" (ngSubmit)="handleEditCustomer()">

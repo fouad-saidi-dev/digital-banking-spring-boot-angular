@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="card-body">
-      <table class="table table-bordered">
+      <table class="table">
         <thead>
         <tr>
           <th>Username</th>
@@ -20,8 +20,9 @@
           <td>{{user.username}}</td>
           <td>{{user.email}}</td>
           <td>
-            <button class="btn btn-info" (click)="goToAddRole(user)">
-              add role
+            <button class="btn btn-primary" (click)="goToAddRole(user)">
+              <i class="bi bi-plus-circle"></i>
+              Add Role
             </button>
           </td>
         </tr>

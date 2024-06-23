@@ -29,7 +29,7 @@ export class NewCustomerComponent implements OnInit {
     this.customerService.saveCustomer(customer).subscribe({
       next: value => {
         alert("Customer has been successfully saved!");
-        this.router.navigateByUrl('/customers')
+        this.router.navigateByUrl('/admin/customers')
       },
       error: err => {
         console.log(err)

@@ -14,4 +14,6 @@ public interface UserService {
     void removeRoleFromUser(String username,String role);
     List<AppUserDTO> getUsers();
     List<AppRoleDTO> getRolesUser(String username);
+    List<AppRoleDTO> getRoles();
+    void deleteRole(String role);
 }

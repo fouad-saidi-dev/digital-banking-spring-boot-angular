@@ -16,9 +16,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -52,20 +54,26 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, Long customerId, double overDraft) throws CustomerNotFoundException {
+    public CurrentBankAccountDTO saveCurrentBankAccount(CurrentBankAccountDTO accountDTO,String username) throws CustomerNotFoundException {
 
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = customerRepository.findById(accountDTO.getCustomerDTO().getId()).orElse(null);
 
         if (customer == null)
             throw new CustomerNotFoundException("Customer not found");
 
+        AppUser user = userRepository.findByUsername(username);
+
+        if (user == null)
+            throw new UsernameNotFoundException("User not found!");
+
         CurrentAccount currentAccount = new CurrentAccount();
         currentAccount.setId(UUID.randomUUID().toString());
         currentAccount.setCreatedAt(new Date());
-        currentAccount.setBalance(initialBalance);
+        currentAccount.setBalance(accountDTO.getBalance());
         currentAccount.setCustomer(customer);
-        currentAccount.setOverDraft(overDraft);
+        currentAccount.setOverDraft(accountDTO.getOverDraft());
         currentAccount.setStatus(AccountStatus.CREATED);
+        currentAccount.setUser(user);
         CurrentAccount savedCurrentAccount = bankAccountRepository.save(currentAccount);
 
         CurrentBankAccountDTO currentBankAccountDTO = mapper.fromCurrentAccount(savedCurrentAccount);
@@ -74,20 +82,26 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public SavingBankAccountDTO saveSavingBankAccount(double initialBalance, Long customerId, double interestRate) throws CustomerNotFoundException {
+    public SavingBankAccountDTO saveSavingBankAccount(SavingBankAccountDTO accountDTO,String username) throws CustomerNotFoundException {
 
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = customerRepository.findById(accountDTO.getCustomerDTO().getId()).orElse(null);
 
         if (customer == null)
             throw new CustomerNotFoundException("Customer not found");
+
+        AppUser user = userRepository.findByUsername(username);
+
+        if (user == null)
+            throw new UsernameNotFoundException("User not found!");
 
         SavingAccount savingAccount = new SavingAccount();
 
         savingAccount.setId(UUID.randomUUID().toString());
         savingAccount.setCreatedAt(new Date());
-        savingAccount.setBalance(initialBalance);
+        savingAccount.setBalance(accountDTO.getBalance());
         savingAccount.setCustomer(customer);
-        savingAccount.setInterestRate(interestRate);
+        savingAccount.setInterestRate(accountDTO.getInterestRate());
+        savingAccount.setUser(user);
         savingAccount.setStatus(AccountStatus.CREATED);
 
         SavingAccount savedSavingAccount = bankAccountRepository.save(savingAccount);
@@ -294,6 +308,31 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .stream().map(accountOperation -> mapper.fromAccountOperation(accountOperation))
                 .toList();
         return accountOperationDTOS;
+    }
+
+    @Override
+    public AccountPageDTO getAccounts(String keyword, int page, int size) {
+
+        Page<BankAccount> bankAccounts = bankAccountRepository.searchByCustomerName(keyword,PageRequest.of(page,size));
+
+        List<BankAccountDTO> bankAccountDTOS = bankAccounts.stream().map(account -> {
+            if (account instanceof CurrentAccount) {
+                CurrentAccount currentAccount = (CurrentAccount) account;
+                return mapper.fromCurrentAccount(currentAccount);
+            } else {
+                SavingAccount savingAccount = (SavingAccount) account;
+                return mapper.fromSavingAccount(savingAccount);
+            }
+        }).toList();
+
+        AccountPageDTO accountPageDTO = new AccountPageDTO();
+
+        accountPageDTO.setCurrentPage(page);
+        accountPageDTO.setSize(size);
+        accountPageDTO.setTotalPages(bankAccounts.getTotalPages());
+        accountPageDTO.setBankAccountDTOS(bankAccountDTOS);
+
+        return accountPageDTO;
     }
 
 

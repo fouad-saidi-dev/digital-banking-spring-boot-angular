@@ -12,7 +12,7 @@ export class PieChartOperationsComponent implements OnInit {
   public pieChartOptions: ChartOptions = {
     responsive: true
   }
-  public pieChartLabels: string[] = ['Debit', 'Credit']
+  public pieChartLabels: string[] = ['DEBIT', 'CREDIT'];
   public pieChartType: ChartType = 'pie'
   public pieChartLegend = true;
   public pieChartPlugins = [];
@@ -20,7 +20,7 @@ export class PieChartOperationsComponent implements OnInit {
     labels: this.pieChartLabels,
     datasets: [
       {
-        label: 'Accounts Type',
+        label: 'Operations',
         data: [0, 0],
         backgroundColor: ['#FFBB99', '#FFCC99']
       }
@@ -45,7 +45,7 @@ export class PieChartOperationsComponent implements OnInit {
           labels: this.pieChartLabels,
           datasets: [
             {
-              label: 'Accounts Type',
+              label: 'Operations',
               data: [debit, credit],
               backgroundColor: ['#161895', '#e70d37']
             }

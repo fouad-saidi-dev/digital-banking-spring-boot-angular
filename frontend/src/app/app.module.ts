@@ -28,6 +28,8 @@ import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './new-user/new-user.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { NewRoleComponent } from './new-role/new-role.component';
+import { NewBankAccountComponent } from './new-bank-account/new-bank-account.component';
+import { DisplayAccountsComponent } from './display-accounts/display-accounts.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { NewRoleComponent } from './new-role/new-role.component';
     UsersComponent,
     NewUserComponent,
     AddRoleComponent,
-    NewRoleComponent
+    NewRoleComponent,
+    NewBankAccountComponent,
+    DisplayAccountsComponent
   ],
   imports: [
     BrowserModule,

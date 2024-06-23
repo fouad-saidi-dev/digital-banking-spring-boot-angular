@@ -23,11 +23,15 @@
 ![add-role-to-user](../captures/add-role-to-user.png)
 #### Get Roles of User :
 ![getRoleUser](../captures/get-role-user.png)
-#### Delete Role of user:
+#### Delete Role of user :
 ![delete role of user](../captures/delete-role.png)
-#### Add New Role:
+#### Add New Role :
 ![add role](../captures/newRole1.png)
 ![add role](../captures/newRole2.png)
+#### Get All Roles :
+![roles](../captures/swagger-get-roles-v1.png)
+#### Delete Role :
+![delete role](../captures/swagger-delete-role-v1.png)
 
 ### Customers =====>>>>
 
@@ -74,3 +78,12 @@
 #### Transfer to another account :
 ![transfer](../captures/transfer1.png)
 ![transfer](../captures/transfer2.png)
+### Save CurrentAccount :
+![current account](../captures/swaggersaveCurrentAccont1.png)
+![current account](../captures/swaggersaveCurrentAccont2.png)
+### Save SavingAccount :
+![saving account](../captures/swaggersaveSavingAccount1.png)
+![saving account](../captures/swaggersaveSavingAccount2.png)
+### Get Accounts By customer with pagination :
+![saving account](../captures/swagger-accounts-pagination1.png)
+![saving account](../captures/swagger-accounts-pagination2.png)

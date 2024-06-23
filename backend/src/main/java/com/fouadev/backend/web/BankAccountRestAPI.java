@@ -4,6 +4,7 @@ import com.fouadev.backend.dtos.*;
 import com.fouadev.backend.entities.BankAccount;
 import com.fouadev.backend.exceptions.BalanceNotSufficientException;
 import com.fouadev.backend.exceptions.BankAccountNotFoundException;
+import com.fouadev.backend.exceptions.CustomerNotFoundException;
 import com.fouadev.backend.services.BankAccountService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -70,4 +71,21 @@ public class BankAccountRestAPI {
         return bankAccountService.accountOperationsList();
     }
 
+    @PostMapping("/addSavingAccount")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public SavingBankAccountDTO addSavingAccount(@RequestBody SavingBankAccountDTO accountDTO,Principal principal) throws CustomerNotFoundException {
+        return bankAccountService.saveSavingBankAccount(accountDTO,principal.getName());
+    }
+    @PostMapping("/addCurrentAccount")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public CurrentBankAccountDTO addCurrentAccount(@RequestBody CurrentBankAccountDTO accountDTO,Principal principal) throws CustomerNotFoundException {
+        return bankAccountService.saveCurrentBankAccount(accountDTO,principal.getName());
+    }
+    @GetMapping("/pagination")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
+    public AccountPageDTO accounts(@RequestParam(name = "keyword",defaultValue = "") String keyword,
+                                   @RequestParam(name = "page",defaultValue = "0") int page,
+                                   @RequestParam(name = "size",defaultValue = "5") int size){
+        return bankAccountService.getAccounts("%"+keyword+"%",page,size);
+    }
 }

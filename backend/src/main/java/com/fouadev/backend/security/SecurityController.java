@@ -117,4 +117,14 @@ public class SecurityController {
     public List<AppRoleDTO> getRolesByUser(@PathVariable String username){
         return userService.getRolesUser(username);
     }
+    @GetMapping("/roles")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public List<AppRoleDTO> getRoles(){
+        return userService.getRoles();
+    }
+    @DeleteMapping("/deleteRole/{role}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public void deleteRole(@PathVariable String role){
+        userService.deleteRole(role);
+    }
 }

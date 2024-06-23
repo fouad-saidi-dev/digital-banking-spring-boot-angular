@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class NewUserComponent implements OnInit {
   newUserForm!: FormGroup;
+  isAlert: boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -25,8 +26,12 @@ export class NewUserComponent implements OnInit {
     let user = this.newUserForm.value
     this.userService.addUser(user).subscribe({
       next: value => {
-        alert("User has been saved successfully!")
+        //alert("User has been saved successfully!")
+        this.isAlert = true
         console.log(value)
+        setTimeout(() => {
+          this.isAlert = false
+        },4000);
       },
       error: err => {
         console.log('Error save user!', err)

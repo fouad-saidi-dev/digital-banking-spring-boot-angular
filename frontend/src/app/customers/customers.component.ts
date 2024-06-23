@@ -17,12 +17,12 @@ export class CustomersComponent implements OnInit {
   searchFormGroup!: FormGroup;
   currentPage: number = 0;
   pageSize: number = 5;
-  customerObservable!:Observable<CustomerPagination>;
+  customerObservable!: Observable<CustomerPagination>;
 
   constructor(private customerService: CustomerService,
               private formBuilder: FormBuilder,
               private router: Router,
-              public authService:AuthService) {
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class CustomersComponent implements OnInit {
 
   handleSearchCustomers() {
     let keyword = this.searchFormGroup?.value.keyword;
-    this.customerObservable = this.customerService.getCustomersPagination(keyword,this.currentPage,this.pageSize)
+    this.customerObservable = this.customerService.getCustomersPagination(keyword, this.currentPage, this.pageSize)
       .pipe(
         catchError(err => {
           this.errorMessage = err.message;
@@ -46,15 +46,16 @@ export class CustomersComponent implements OnInit {
   }
 
   handleDeleteCustomer(customer: Customer) {
-    this.customerService.deleteCustomer(customer).subscribe({
-      next: (res) => {
-
-        this.handleSearchCustomers()
-      },
-      error: err => {
-        console.log(err)
-      }
-    })
+    if (confirm("Are you sure you want to delete customer " + customer.name + "?")) {
+      this.customerService.deleteCustomer(customer).subscribe({
+        next: (res) => {
+          this.handleSearchCustomers()
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
+    }
   }
 
   handleEditCustomer(customer: Customer) {
@@ -64,8 +65,13 @@ export class CustomersComponent implements OnInit {
   handleCustomerAccounts(customer: Customer) {
     this.router.navigateByUrl(`/admin/customer-accounts/${customer.id}`)
   }
+
   gotoPage(page: number) {
     this.currentPage = page
     this.handleSearchCustomers()
+  }
+
+  goToNewCustomer() {
+    this.router.navigateByUrl('/admin/new-customer')
   }
 }
